@@ -22,12 +22,13 @@
         </nav>     
         <p>Fazer Reservas  </p> 
         <a id ='iconevoltar' href="TelaCliente.php"><img src="../assets/img/voltar.png" width="35" alt="Voltar"></a>
+        <abbr title="Clique Aqui Para Verificar Disponibilidade Da Quadra"><a id ='iconevisualizar' href="TelaHorarios.php"><img src="../assets/img/relogio.png" width="35" alt="Voltar"></a></abbr>
+
     </div>
     <section class="corpo">
         <br><br><br>     
-        <div class= "mid">
-            <a href="TelaHorarios.php"> Visualizar os horários de funcionamento </a>
-            <h1>Faça a reserva inserindo os dados:</h1>
+        <div class= "midreserva">
+            <h1>Faça a Reserva Inserindo os Dados:</h1>
             <br>
 	        <form method="POST">
                 <div class="form-login">
@@ -42,10 +43,10 @@
                     <?php
                         //Conecta com os arquivos
                         require_once '../../Controller/Conexao.php';
-                        require_once '../../Model/Cliente.php';
+                        require_once '../../Model/HorarioReserva.php';
                 
                         //Instancias
-                        $c = new Cliente;
+                        $hr = new HorarioReserva;
                         $conexao = new Conexao;
 
                         session_start();
@@ -74,33 +75,33 @@
                                         if($Inicio_Reserva != $Fim_Reserva) //Verifica se o inicio da reserva não é o mesmo que o fim da reserva
                                         {                           
                                             $email_cookie = $_COOKIE['Email_cliente'];
-                                            if($c->fazerReserva($Inicio_Reserva, $Fim_Reserva, $Data_Reserva, $email_cookie)) //Se a função "solicitarReserva" retornar "true"
+                                            if($hr->fazerReserva($Inicio_Reserva, $Fim_Reserva, $Data_Reserva, $email_cookie)) //Se a função "solicitarReserva" retornar "true"
                                             {
-                                                echo "<div id='sucesso'><center>Reserva realizada! <script> alert('Reserva realizada com sucesso! </script></div><br><a class='option' href='TelaMeusRelatoriosReservas.php'>Ver relatórios de aluguel</a><br>"; //Aparece na tela
+                                                echo "<div id='sucesso'><center>Reserva realizada! <script> alert('Reserva realizada com sucesso! </script></div><br><abbr title='Clique Para Visualizar Suas Reservas'><a id='iconerelatorio' href='TelaMeusRelatoriosReservas.php'><img src='../assets/img/olho.png' width='37' alt='Voltar'></a><br></abbr>"; //Aparece na tela
                                             }
                                             else //Se a função "solicitarReserva" retornar "false"
                                             {                    
-                                                echo"<div id='erro'><center>Já tem alguém reservando esse horário!</center></div>";
+                                                echo"<div id='erroreserva'><center>Já tem alguém reservando esse horário!</center></div>";
                                             }                                    
                                         }
                                         else 
                                         {
-                                            echo"<div id='erro'>Horário inválido!</div>";
+                                            echo"<div id='erroreserva'>Horário inválido!</div>";
                                         }
                                     } 
                                     else
                                     {
-                                        echo"<div id='erro'>Horário inválido!</div>";
+                                        echo"<div id='erroreserva'>Horário inválido!</div>";
                                     }               
                                 }
                                 else
                                 {
-                                    echo "<div id='erro'>Preencha todos os campos!</div>";
+                                    echo "<div id='erroreserva'>Preencha todos os campos!</div>";
                                 }                             
                             }
                             else
                             {
-                                echo "<div id='erro'>Ops, esse dia já passou!</div>";
+                                echo "<div id='erroreserva'>Ops, esse dia já passou!</div>";
                             }   
                         }
                     ?>
